@@ -1,0 +1,16 @@
+version: "3.9"
+
+services:
+  ner-api:
+    build:
+      context: .
+      dockerfile: ner-api/dockerfile
+    container_name: ner-api
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    ports:
+      - "8000:8000"
+    dns:
+      - 1.1.1.1     # Cloudflare
+      - 8.8.8.8     # Google
+    restart: unless-stopped

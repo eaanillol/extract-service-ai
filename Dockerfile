@@ -5,7 +5,7 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY api.py .
+COPY api_ocr.py .
 
 # Crear directorio temporal para archivos
 RUN mkdir -p /tmp
@@ -14,4 +14,4 @@ RUN mkdir -p /tmp
 EXPOSE 5000
 
 # Comando para ejecutar la aplicación
-CMD ["uvicorn", "api:app", "--host", "0.0.0.0", "--port", "5000"]
+CMD ["uvicorn", "api_ocr:app", "--host", "0.0.0.0", "--port", "5000"]

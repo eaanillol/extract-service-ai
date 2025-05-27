@@ -2,8 +2,8 @@ FROM python:3.9
 
 WORKDIR /app
 
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+COPY requirements_ocr.txt .
+RUN pip install --no-cache-dir -r requirements_ocr.txt
 
 COPY api_ocr.py .
 
@@ -14,4 +14,4 @@ RUN mkdir -p /tmp
 EXPOSE 5000
 
 # Comando para ejecutar la aplicación
-CMD ["uvicorn", "api_ocr:app", "--host", "0.0.0.0", "--port", "5000"]
+CMD ["python", "-m", "uvicorn", "api_ocr:app", "--host", "0.0.0.0", "--port", "5000"]

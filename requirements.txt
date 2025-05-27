@@ -64,4 +64,4 @@ uvicorn==0.34.2
 watchdog==6.0.0
 watchfiles==1.0.5
 websockets==15.0.1
-boto3==1.38.23
+

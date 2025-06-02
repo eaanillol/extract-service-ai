@@ -6,14 +6,10 @@ import os
 import pandas as pd
 from PIL import Image
 from io import BytesIO
-import dotenv
 
-# Cargar variables de entorno
-dotenv.load_dotenv()
-
-# URLs de las APIs
-OCR_API_URL = os.getenv("OCR_API_URL", "http://localhost:5000")
-NER_API_URL = os.getenv("NER_API_URL", "http://localhost:8000")
+# URLs de las APIs (configuradas en docker-compose)
+OCR_API_URL = os.getenv("OCR_API_URL", "http://textract-api:5000")
+NER_API_URL = os.getenv("NER_API_URL", "http://ner-api:8000")
 
 st.set_page_config(
     page_title="Extractor de Entidades de Documentos",

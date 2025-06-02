@@ -3,6 +3,7 @@ import json
 import logging
 import os
 from typing import Any, Dict
+import dotenv
 
 from fastapi import FastAPI, HTTPException, Request
 from pydantic import BaseModel, Field
@@ -15,6 +16,11 @@ logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s %(levelname)s %(name)s - %(message)s",
 )
+try:
+    dotenv.load_dotenv()
+except:
+    logger.info("No se encontró archivo .env, usando variables de entorno del sistema")
+
 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 if not OPENAI_API_KEY:

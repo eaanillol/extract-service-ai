@@ -1,17 +1,52 @@
-version: '3'
+version: '3.9'
 
 services:
   textract-api:
     build:
       context: .
+      dockerfile: Dockerfile_ocr
+    container_name: textract-api
     env_file:
       - .env
     environment:
       - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
       - AWS_REGION=${AWS_REGION:-us-east-1}
-      - AWS_SESSION_TOKEN=${AWS_SESSION_TOKEN}
     ports:
       - "5000:5000"
     volumes:
       - /tmp:/tmp
+    restart: unless-stopped
+
+  ner-api:
+    build:
+      context: .
+      dockerfile: ner-api/dockerfile
+    container_name: ner-api
+    env_file:
+      - .env
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    ports:
+      - "8000:8000"
+    dns:
+      - 1.1.1.1     # Cloudflare
+      - 8.8.8.8     # Google
+    restart: unless-stopped
+
+  streamlit-app:
+    build:
+      context: .
+      dockerfile: Dockerfile_streamlit
+    container_name: streamlit-app
+    env_file:
+      - .env
+    environment:
+      - OCR_API_URL=http://textract-api:5000
+      - NER_API_URL=http://ner-api:8000
+    ports:
+      - "8501:8501"
+    depends_on:
+      - textract-api
+      - ner-api
+    restart: unless-stopped
